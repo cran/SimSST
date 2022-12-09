@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Mohsen Soltanifar" />
+
+<meta name="date" content="2022-12-09" />
+
+<title>SimSST Examples</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">SimSST Examples</h1>
+<h4 class="author">Mohsen Soltanifar</h4>
+<h4 class="date">2022-12-09</h4>
+
+
+
+<div id="simsst" class="section level1">
+<h1>SimSST</h1>
+<p>The goal of SimSST is to simulate stop signal task data based on
+fixed ssd method and the tracking method.</p>
+<div id="installation" class="section level2">
+<h2>Installation</h2>
+<p>You can install the development version of descfarspkg with:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: package &#39;dplyr&#39; was built under R version 4.1.3</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;dplyr&#39;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:stats&#39;:</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     filter, lag</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gamlss.dist)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: package &#39;gamlss.dist&#39; was built under R version 4.1.3</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: MASS</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: package &#39;MASS&#39; was built under R version 4.1.3</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;MASS&#39;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:dplyr&#39;:</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     select</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SimSST)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span></code></pre></div>
+<div id="example-1.-paper-fixed-ssd-method-based-simulation" class="section level3">
+<h3>Example 1. Paper: Fixed SSD method-based Simulation</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mySSTdata1 <span class="ot">&lt;-</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simssfixed</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">pid=</span><span class="fu">c</span>(<span class="st">&quot;FNLN1&quot;</span>,<span class="st">&quot;FNLN1&quot;</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">block =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">n=</span><span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">10</span>), <span class="at">m=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>), <span class="at">SSD.b=</span><span class="fu">c</span>(<span class="dv">220</span>,<span class="dv">240</span>),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">dist.go=</span><span class="fu">c</span>(<span class="st">&quot;ExG&quot;</span>,<span class="st">&quot;ExG&quot;</span>),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">theta.go=</span><span class="fu">as.matrix</span>(<span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">440</span>,<span class="dv">90</span>,<span class="dv">90</span>),<span class="fu">c</span>(<span class="dv">440</span>,<span class="dv">90</span>,<span class="dv">90</span>))),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">dist.stop=</span><span class="fu">c</span>(<span class="st">&quot;ExG&quot;</span>,<span class="st">&quot;ExG&quot;</span>),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">theta.stop=</span><span class="fu">as.matrix</span>(<span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">120</span>,<span class="dv">80</span>,<span class="dv">70</span>),<span class="fu">c</span>(<span class="dv">120</span>,<span class="dv">80</span>,<span class="dv">70</span>))))</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>mySSTdata1 </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       Participant.id Block Trial  Inhibition GORT    SSRT    SRRT    SSD   </span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,] &quot;FNLN1&quot;        &quot;1&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;558.2&quot; &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,] &quot;FNLN1&quot;        &quot;1&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;426.8&quot; &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,] &quot;FNLN1&quot;        &quot;1&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;354.3&quot; &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] &quot;FNLN1&quot;        &quot;1&quot;   &quot;Stop&quot; &quot;1&quot;        &quot;-999&quot;  &quot;104.6&quot; &quot;-999&quot;  &quot;220&quot; </span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,] &quot;FNLN1&quot;        &quot;1&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;745.3&quot; &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,] &quot;FNLN1&quot;        &quot;1&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;568.7&quot; &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,] &quot;FNLN1&quot;        &quot;1&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;689.8&quot; &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,] &quot;FNLN1&quot;        &quot;1&quot;   &quot;Stop&quot; &quot;1&quot;        &quot;-999&quot;  &quot;94.7&quot;  &quot;-999&quot;  &quot;220&quot; </span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,] &quot;FNLN1&quot;        &quot;1&quot;   &quot;Stop&quot; &quot;1&quot;        &quot;-999&quot;  &quot;232.3&quot; &quot;-999&quot;  &quot;220&quot; </span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] &quot;FNLN1&quot;        &quot;1&quot;   &quot;Stop&quot; &quot;1&quot;        &quot;-999&quot;  &quot;153.8&quot; &quot;-999&quot;  &quot;220&quot; </span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11,] &quot;FNLN1&quot;        &quot;2&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;493.2&quot; &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [12,] &quot;FNLN1&quot;        &quot;2&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;636.1&quot; &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13,] &quot;FNLN1&quot;        &quot;2&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;591.7&quot; &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [14,] &quot;FNLN1&quot;        &quot;2&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;385.1&quot; &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [15,] &quot;FNLN1&quot;        &quot;2&quot;   &quot;Stop&quot; &quot;0&quot;        &quot;-999&quot;  &quot;195.7&quot; &quot;420.9&quot; &quot;240&quot; </span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [16,] &quot;FNLN1&quot;        &quot;2&quot;   &quot;Stop&quot; &quot;1&quot;        &quot;-999&quot;  &quot;189.8&quot; &quot;-999&quot;  &quot;240&quot; </span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [17,] &quot;FNLN1&quot;        &quot;2&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;564.1&quot; &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [18,] &quot;FNLN1&quot;        &quot;2&quot;   &quot;Stop&quot; &quot;1&quot;        &quot;-999&quot;  &quot;267.2&quot; &quot;-999&quot;  &quot;240&quot; </span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19,] &quot;FNLN1&quot;        &quot;2&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;622.3&quot; &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [20,] &quot;FNLN1&quot;        &quot;2&quot;   &quot;Stop&quot; &quot;1&quot;        &quot;-999&quot;  &quot;264.7&quot; &quot;-999&quot;  &quot;240&quot;</span></span></code></pre></div>
+</div>
+<div id="example-2.paper-tracking-method-based-simulation" class="section level3">
+<h3>Example 2.Paper: Tracking Method-based Simulation</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mySSTdata2 <span class="ot">&lt;-</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simsstrack</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">pid=</span><span class="fu">c</span>(<span class="st">&quot;FNLN1&quot;</span>,<span class="st">&quot;FNLN1&quot;</span>),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">block=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">n=</span><span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">10</span>), <span class="at">m=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>), <span class="at">SSD.b=</span><span class="fu">c</span>(<span class="dv">220</span>,<span class="dv">240</span>), </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">dist.go=</span><span class="fu">c</span>(<span class="st">&quot;ExG&quot;</span>,<span class="st">&quot;ExG&quot;</span> ),</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">theta.go=</span><span class="fu">as.matrix</span>(<span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">440</span>,<span class="dv">90</span>,<span class="dv">90</span>),<span class="fu">c</span>(<span class="dv">440</span>,<span class="dv">90</span>,<span class="dv">90</span>))),</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">dist.stop=</span><span class="fu">c</span>(<span class="st">&quot;ExG&quot;</span>,<span class="st">&quot;ExG&quot;</span> ),</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">theta.stop=</span><span class="fu">as.matrix</span>(<span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">120</span>,<span class="dv">80</span>,<span class="dv">70</span>),<span class="fu">c</span>(<span class="dv">120</span>,<span class="dv">80</span>,<span class="dv">70</span>))))</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>mySSTdata2</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       Participant.id Block Trial  Inhibition GORT    SSRT    SRRT    SSD   </span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1,] &quot;FNLN1&quot;        &quot;1&quot;   &quot;Stop&quot; &quot;0&quot;        &quot;-999&quot;  &quot;319.4&quot; &quot;446.6&quot; &quot;220&quot; </span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2,] &quot;FNLN1&quot;        &quot;1&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;670.7&quot; &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3,] &quot;FNLN1&quot;        &quot;1&quot;   &quot;Stop&quot; &quot;1&quot;        &quot;-999&quot;  &quot;302.1&quot; &quot;-999&quot;  &quot;170&quot; </span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4,] &quot;FNLN1&quot;        &quot;1&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;472&quot;   &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5,] &quot;FNLN1&quot;        &quot;1&quot;   &quot;Stop&quot; &quot;1&quot;        &quot;-999&quot;  &quot;155.2&quot; &quot;-999&quot;  &quot;220&quot; </span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6,] &quot;FNLN1&quot;        &quot;1&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;646.7&quot; &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7,] &quot;FNLN1&quot;        &quot;1&quot;   &quot;Stop&quot; &quot;0&quot;        &quot;-999&quot;  &quot;262.5&quot; &quot;370.8&quot; &quot;270&quot; </span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8,] &quot;FNLN1&quot;        &quot;1&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;474.3&quot; &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9,] &quot;FNLN1&quot;        &quot;1&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;470.5&quot; &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10,] &quot;FNLN1&quot;        &quot;1&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;512&quot;   &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11,] &quot;FNLN1&quot;        &quot;2&quot;   &quot;Stop&quot; &quot;0&quot;        &quot;-999&quot;  &quot;270.3&quot; &quot;427.2&quot; &quot;240&quot; </span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [12,] &quot;FNLN1&quot;        &quot;2&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;402.8&quot; &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13,] &quot;FNLN1&quot;        &quot;2&quot;   &quot;Stop&quot; &quot;1&quot;        &quot;-999&quot;  &quot;171.4&quot; &quot;-999&quot;  &quot;190&quot; </span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [14,] &quot;FNLN1&quot;        &quot;2&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;440.4&quot; &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [15,] &quot;FNLN1&quot;        &quot;2&quot;   &quot;Stop&quot; &quot;0&quot;        &quot;-999&quot;  &quot;160.2&quot; &quot;392.4&quot; &quot;240&quot; </span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [16,] &quot;FNLN1&quot;        &quot;2&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;351.9&quot; &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [17,] &quot;FNLN1&quot;        &quot;2&quot;   &quot;Stop&quot; &quot;0&quot;        &quot;-999&quot;  &quot;276&quot;   &quot;442.4&quot; &quot;190&quot; </span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [18,] &quot;FNLN1&quot;        &quot;2&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;562.5&quot; &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19,] &quot;FNLN1&quot;        &quot;2&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;671.4&quot; &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [20,] &quot;FNLN1&quot;        &quot;2&quot;   &quot;Go&quot;   &quot;-999&quot;     &quot;615&quot;   &quot;-999&quot;  &quot;-999&quot;  &quot;-999&quot;</span></span></code></pre></div>
+<p>To convert tracking-based SimSST simulated data to BEESTS software
+input data, we have:</p>
+</div>
+<div id="example-converstion-to-beests-software-format" class="section level3">
+<h3>Example: Converstion to BEESTs software format</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Datatemp2<span class="ot">&lt;-</span>mySSTdata2 </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ss_presented<span class="ot">&lt;-</span><span class="fu">recode</span>(Datatemp2[,<span class="dv">3</span>], <span class="st">&#39;Stop&#39;</span> <span class="ot">=</span> <span class="st">&quot;1&quot;</span>, <span class="st">&#39;Go&#39;</span> <span class="ot">=</span> <span class="st">&quot;0&quot;</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>inhibited<span class="ot">&lt;-</span>Datatemp2[,<span class="dv">4</span>]</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>ssd<span class="ot">&lt;-</span>Datatemp2[,<span class="dv">8</span>]</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>rt<span class="ot">&lt;-</span>Datatemp2[,<span class="dv">5</span>]</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>srrt<span class="ot">&lt;-</span>Datatemp2[,<span class="dv">7</span>]</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>Data2<span class="ot">&lt;-</span><span class="fu">cbind.data.frame</span>(ss_presented, inhibited, ssd, rt, srrt)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>)  <span class="cf">if</span>(Data2<span class="sc">$</span>inhibited[i]<span class="sc">==</span><span class="dv">0</span>) Data2<span class="sc">$</span>rt[i] <span class="ot">&lt;-</span> Data2<span class="sc">$</span>srrt[i]  </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>myBEESTSdata2 <span class="ot">&lt;-</span> (Data2[,<span class="sc">-</span><span class="dv">5</span>])[<span class="fu">order</span>(ss_presented),]</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>myBEESTSdata2</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    ss_presented inhibited  ssd    rt</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2             0      -999 -999 670.7</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4             0      -999 -999   472</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6             0      -999 -999 646.7</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8             0      -999 -999 474.3</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9             0      -999 -999 470.5</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10            0      -999 -999   512</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12            0      -999 -999 402.8</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 14            0      -999 -999 440.4</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 16            0      -999 -999 351.9</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 18            0      -999 -999 562.5</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 19            0      -999 -999 671.4</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 20            0      -999 -999   615</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1             1         0  220 446.6</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3             1         1  170  -999</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5             1         1  220  -999</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7             1         0  270 370.8</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11            1         0  240 427.2</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 13            1         1  190  -999</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15            1         0  240 392.4</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 17            1         0  190 442.4</span></span></code></pre></div>
+<p>Once users reformat the simulated datasets to BEESTS dataset format,
+they may feed the BEESTS data to the BEESTS software to compute their
+plausible parameters (mu, sigma, tau).</p>
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
