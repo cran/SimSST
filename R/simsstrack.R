@@ -5,7 +5,7 @@
 # 2022-DEC-03
 #
 
-#' @rdname simsstrack
+# @rdname simsstrack
 simsstrack0 <- function(pid, n, m, SSD.b,
                                             dist.go, theta.go,
                                             dist.stop, theta.stop)
@@ -149,7 +149,7 @@ simsstrack0 <- function(pid, n, m, SSD.b,
 #' @param dist.stop a character vector of size `b` of distribution of stop.trials, either ExG or SW
 #' @param theta.go a numeric matrix of size `b` by columns `mu.go`, `sigma.go`, `tau.go`
 #' @param theta.stop a numeric matrix of size `b` by columns `mu.stop`, `sigma.stop`, `tau.stop`
-#' @returns a matrix with `sum(n)` rows and (7+1) columns
+#' @returns a matrix with `sum(n)` rows and (8) columns
 #'
 #' @references
 #' Gordon D. Logan. On the Ability to Inhibit Thought and Action: A User's Guide to the Stop Signal Paradigm. In D. Dagenbach, & T.H. Carr (Eds.), Inhibitory Process in Attention, Memory and Language. San Diego: Academic Press, 1994.

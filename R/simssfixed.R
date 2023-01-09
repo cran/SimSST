@@ -5,7 +5,7 @@
 # 2022-DEC-08
 #
 
-#' @rdname simssfixed
+# @rdname simssfixed
 simssfixed0 <- function(pid, n, m, SSD.b, dist.go, theta.go,
                                       dist.stop, theta.stop){
 
